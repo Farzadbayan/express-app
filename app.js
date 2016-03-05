@@ -1,4 +1,5 @@
 var express = require('express');
+var quotes = require('./lib/quotes.js');
 
 var app = express();
 
@@ -7,10 +8,12 @@ var handlebars = require('express3-handlebars').create({ defaultLayout: 'main' }
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
+app.use(express.static(__dirname + '/public'));
+
 app.set('port', process.env.PORT || 3000);
 
 app.get('/', function(req, res){
-  res.render('home');
+  res.render('home', {quote: quotes.getQuote()});
 });
 
 app.get('/about', function(req, res){
